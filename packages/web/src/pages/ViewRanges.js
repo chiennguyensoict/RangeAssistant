@@ -46,7 +46,7 @@ const predefinedTagLists = [
 const ViewRanges = () => {
   const history = useHistory();
   const [ranges, setRanges] = useState([]);
-  const [frequencyMode, setFrequencyMode] = useState(false);
+  const [frequencyMode, setFrequencyMode] = useState(true);
   const [refreshRate, setRefreshRate] = useState(10);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
