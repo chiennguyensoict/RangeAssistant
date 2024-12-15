@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  // Link
 } from "react-router-dom";
 import {
   Layout,
@@ -24,12 +24,12 @@ import importImg from "./assets/import.jpg";
 import weightsImg from "./assets/weights.jpg";
 import frequency from "./assets/frequency.jpg";
 import download from "./assets/download.jpg";
-import logo from "./assets/logo.png";
+// import logo from "./assets/logo.png";
 import "./App.css";
 const { Title, Paragraph, Text } = Typography;
 
 const parser = new UAParser();
-const { Header, Footer, Content } = Layout;
+const { Footer, Content } = Layout;
 
 const getOSIcon = (os) => {
   switch (os) {
@@ -68,7 +68,7 @@ function App() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Router basename={process.env.PUBLIC_URL} >
-        <SiteHeader onOpenHelp={() => setIntroVisible(true)}/>
+        {/* <SiteHeader onOpenHelp={() => setIntroVisible(true)}/> */}
         <Content className="content">
           <div className="site-layout-content gutter">
             <Switch>
@@ -174,23 +174,23 @@ const Intro = ({ visible, onClose }) => {
 
 }
 
-const SiteHeader = ({ onOpenHelp }) => (
-  <Header className="site-layout-header">
-    <img
-      alt="logo"
-      height="60"
-      src={logo}
-    />
-    <Link to="/" className="logo-text">
-      <span style={{ color: "#000"}}>Hold'em Poker Tools</span>
-      <br/>
-      <span style={{ color: "#bd2829"}}>Range Assistant</span>
-    </Link>
-    <div className="spacer"/>
-    <Link to="/" className="ant-btn-link">My Ranges</Link>
-    <Button onClick={onOpenHelp} type="link">How to Use</Button>
-  </Header>
-)
+// const SiteHeader = ({ onOpenHelp }) => (
+//   <Header className="site-layout-header">
+//     <img
+//       alt="logo"
+//       height="60"
+//       src={logo}
+//     />
+//     <Link to="/" className="logo-text">
+//       <span style={{ color: "#000"}}>Hold'em Poker Tools</span>
+//       <br/>
+//       <span style={{ color: "#bd2829"}}>Range Assistant</span>
+//     </Link>
+//     <div className="spacer"/>
+//     <Link to="/" className="ant-btn-link">My Ranges</Link>
+//     <Button onClick={onOpenHelp} type="link">How to Use</Button>
+//   </Header>
+// )
 
 const SiteFooter = () => (
   <Footer style={{ textAlign: "center" }}>

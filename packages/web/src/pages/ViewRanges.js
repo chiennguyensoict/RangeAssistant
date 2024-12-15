@@ -36,6 +36,13 @@ const { Option } = Select;
 
 const MIN_REFRESH_RATE = 3;
 
+const predefinedTagLists = [
+  ["BTN", "SB", "BB", "UTG", "MP", "CO"], // Column 1
+  ["RFI", "vs RFI", "vs 3bet"], // Column 2
+  ["vs BTN", "vs SB", "vs BB", "vs UTG", "vs MP", "vs CO"], // Column 3
+  // ["Tag1D", "Tag2D", "Tag3D"], // Column 4
+];
+
 const ViewRanges = () => {
   const history = useHistory();
   const [ranges, setRanges] = useState([]);
@@ -44,7 +51,8 @@ const ViewRanges = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
   const [visible, setVisible] = useState(false);
-  const [tags, setTags] = useState([]);
+  // const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [rng, setRng] = useState(0);
 
   useEffect(() => {
@@ -131,7 +139,15 @@ const ViewRanges = () => {
     ;
   }
 
-  const filteredRanges = ranges.filter(range => tags.length === 0 || tags.every(t => range.tags.includes(t)));
+  // const filteredRanges = ranges.filter(range => tags.length === 0 || tags.every(t => range.tags.includes(t)));
+  // const allTags = [...new Set((ranges || []).map(range => range.tags).flat())].sort();
+
+  // Filter ranges based on selected tags
+  const filteredRanges = ranges.filter((range) =>
+    selectedTags.length === 0
+      ? true // Show all ranges if no tags are selected
+      : selectedTags.every((t) => range.tags.includes(t))
+  );
 
   return (
     <div>
@@ -139,9 +155,32 @@ const ViewRanges = () => {
       { !loading && <Space direction="vertical" style={{width: "100%"}}>
         <div className="view-ranges-controls">
           <Space>
-            <Select value={tags} placeholder="Filter by tags..." mode="multiple" allowClear onChange={setTags}>
-              {[...new Set((ranges || []).map(range => range.tags).flat())].sort().map(tag => <Option key={tag} value={tag}>{tag}</Option>)}
-            </Select>
+            <Row gutter={[3, 3]}>
+                {predefinedTagLists.map((tagList, columnIndex) => (
+                  <Col key={columnIndex} span={6}>
+                    {tagList.map((tag) => (
+                      <div key={tag}>
+                        <input
+                          type="checkbox"
+                          id={tag}
+                          value={tag}
+                          checked={selectedTags.includes(tag)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedTags([...selectedTags, tag]);
+                            } else {
+                              setSelectedTags(
+                                selectedTags.filter((t) => t !== tag)
+                              );
+                            }
+                          }}
+                        />
+                        <label htmlFor={tag}>{tag}</label>
+                      </div>
+                    ))}
+                  </Col>
+                ))}
+            </Row>
             <Button icon={<PlusCircleOutlined/>} onClick={() => setVisible(true)}>Add Range</Button>
             <Popconfirm
               title="Are you sure you want to delete all ranges?"
